@@ -1,0 +1,35 @@
+body{
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    margin-top: 20px;
+    display: flex;
+    border: solid black;
+    width: 400px;
+    height: 500px;
+    flex-direction: column;
+    background-color: orange;
+}
+
+.display{
+    width: 350px;
+    height: 90px;
+    margin: 10px;
+    border: solid black;
+    margin-left: 20px;
+    background-color: lightslategray;
+}
+
+.buttons{
+    margin-left: 30px;
+}
+
+button{
+    justify-content: center;
+    padding: 30px;
+    margin: 5px;
+    background-color: aqua;
+    border-radius: 5px;
+}
