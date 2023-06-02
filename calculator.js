@@ -2,15 +2,11 @@ let firstVariable = "";
 let operatorSymbol = "";
 let secondVariable = "";
 let equalPresent = false;
-const operatorCheck = ['/', '*', '-', '+'];
 let shouldReset = false;
-
-//let operationArray = ""; //array to store the inputs the user selects
 
 const display = document.querySelector('.display');
 
 //selection and function for when the number buttons are pressed
-
 let temp = "";
 const numbersPressed = document.querySelectorAll('.numbers');
 numbersPressed.forEach((numberPressed) => {
@@ -23,10 +19,6 @@ numbersPressed.forEach((numberPressed) => {
         temp += numberPressed.value; //changing the temp assignment from display.textContent made it so that only the number is pushed in
     });
 });
-
-//different problem showed up: when the operator button is pressed,
-// it only goes through the if part, not the else part
-//therefore secondVariable has nothing and firstVariable has the entire display.textContent
 
 const operatorsPressed = document.querySelectorAll('.operator');
 operatorsPressed.forEach((operatorPressed) => {
@@ -118,4 +110,3 @@ function multiply(a, b) {
 function divide(a, b) {
     return a / b;
 }
-
