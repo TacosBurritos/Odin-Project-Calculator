@@ -1,17 +1,11 @@
-const firstVariable = "";
-const operatorSymbol = "";
-const secondVariable = "";
+let firstVariable = "";
+let operatorSymbol = "";
+let secondVariable = "";
+let equalPresent = false;
 const operatorCheck = ['/', '*', '-', '+'];
 let shouldReset = false;
-/*logic:
-    1. put all the numbers and operators into an array
-    2. use some sort of method to find either * or /
-    3. get indexOf that * or / of the array
-    4. the two operands are one minus that index and one plus that index
-    5. all calculations should be done after all the numbers and operators are put in
-*/
 
-let operationArray = ""; //array to store the inputs the user selects
+//let operationArray = ""; //array to store the inputs the user selects
 
 const display = document.querySelector('.display');
 
@@ -26,53 +20,86 @@ numbersPressed.forEach((numberPressed) => {
             shouldReset = false;
         }
         display.textContent += numberPressed.value;
-        temp = display.textContent;
-        //pushes each individual numbers into array will store only single digit per index
+        temp += numberPressed.value; //changing the temp assignment from display.textContent made it so that only the number is pushed in
     });
 });
 
-//need to figure out what to do with the display so that if the operator is pressed the second time
-//the firstVariable will be the solved number and the second variable will be the new inputted one
+//different problem showed up: when the operator button is pressed,
+// it only goes through the if part, not the else part
+//therefore secondVariable has nothing and firstVariable has the entire display.textContent
 
 const operatorsPressed = document.querySelectorAll('.operator');
 operatorsPressed.forEach((operatorPressed) => {
-    operatorPressed.addEventListener('click', () => { 
-        if (!display.textContent.includes('/' || '*' || '-' || '+')) {
-            firstVariable = temp;
+    operatorPressed.addEventListener('click', () => {
+        //must think of a better if logic so that it also goes through the else statement
+        if (firstVariable === "") {
+            if(temp === ""){
+                alert("Please input a number before you hit any operators");
+            }
+            else{
+                firstVariable = temp;
+                temp = "";
+            }
+            //checking if the user puts in numbers and then a equal sign
+            if (operatorPressed.value === '=') {
+                alert("Please enter either a '+', '-', '*', or a'/' and a second number before hitting the equal sign.");
+                clear();
+            }
         }
         else {
             secondVariable = temp;
-            //firstVariable = operate(firstVariable, operatorSymbol, secondVariable);
+            temp = "";
+            if (operatorPressed.value !== '=') {
+                firstVariable = String(operate(firstVariable, operatorSymbol, secondVariable));
+                display.textContent = firstVariable;
+                secondVariable = "";
+                
+            }
+            else {
+                display.textContent = String(operate(firstVariable, operatorSymbol, secondVariable));
+            }
         }
-        display.textContent += operatorPressed.value;
         operatorSymbol = operatorPressed.value; //pushes each individual operator into array does not check for error
+        //shows the operators if they are not equal sign and as long as their is a number in the beginning
+        if(operatorPressed.value !== '=' && firstVariable !== ""){
+            display.textContent += operatorPressed.value;
+            shouldReset = true;
+        }
         shouldReset = true;
     });
 });
 
-function clear() {
-    const clearDisplay = document.querySelector('#clear');
-    clearDisplay.addEventListener('click', () => {
-        display.textContent = "";
-        firstVariable = ""; //clears the contents of operationArray by setting length to 0
-        operatorSymbol = "";
-        secondVariable = "";
-    });
-}
+const equalPressed = document.querySelector('#equals');
+equalPressed.addEventListener('click', () => {
+    equalPresent = true;
+    console.log(firstVariable);
+    console.log(operatorSymbol);
+    console.log(secondVariable);
+})
 
+
+const clearDisplay = document.querySelector('#clear');
+clearDisplay.addEventListener('click', clear);
+
+function clear() {
+    display.textContent = "";
+    firstVariable = ""; //clears the contents of operationArray by setting length to 0
+    operatorSymbol = "";
+    secondVariable = "";
+}
 
 function operate(firstVariable, operatorSymbol, secondVariable) {
     if (operatorSymbol === '+') {
-        add(firstVariable, secondVariable);
+        return add(Number(firstVariable), Number(secondVariable));
     }
     else if (operatorSymbol === '-') {
-        subtract(firstVariable, secondVariable);
+        return subtract(Number(firstVariable), Number(secondVariable));
     }
     else if (operatorSymbol === '*') {
-        multiply(firstVariable, secondVariable);
+        return multiply(Number(firstVariable), Number(secondVariable));
     }
     else if (operatorSymbol === '/') {
-        divide(firstVariable, secondVariable);
+        return divide(Number(firstVariable), Number(secondVariable));
     }
 }
 
